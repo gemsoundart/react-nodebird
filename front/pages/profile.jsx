@@ -11,6 +11,7 @@ import FollowList from '../components/FollowList';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import AppLayer from '../components/AppLayer';
+import { backUrl } from '../config/config';
 
 const fetcher = (url) => axios.get(url, { withCredentials: true }).then((result) => {
   return result.data;
@@ -21,8 +22,8 @@ const Profile = () => {
   const [followersLimit, setFollowersLimit] = useState(3);
   const [followingsLimit, setFollowingsLimit] = useState(3);
 
-  const { data: followersData, error: followerError } = useSWR(`http://localhost:3065/user/followers?limit=${followersLimit}`, fetcher);
-  const { data: followingsData, error: followingError } = useSWR(`http://localhost:3065/user/followings?limit=${followingsLimit}`, fetcher);
+  const { data: followersData, error: followerError } = useSWR(`${backUrl}/user/followers?limit=${followersLimit}`, fetcher);
+  const { data: followingsData, error: followingError } = useSWR(`${backUrl}/user/followings?limit=${followingsLimit}`, fetcher);
 
   useEffect(() => {
     if (!(me && me.id)) {

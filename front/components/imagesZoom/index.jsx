@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Slick from 'react-slick';
-import { CloseButton, Global, Header, ImageWrapper, Indicator, Overlay, SlickWrapper } from './styles'
+import { CloseButton, Header, ImageWrapper, Overlay, SlickWrapper } from './styles';
+import { backUrl } from '../../config/config';
+
 const ImagesZoom = ({ images, onClose }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   return (
     <Overlay>
-      {/*<Global />*/}
+      {/* <Global /> */}
       <Header>
         <h1>상세 이미지</h1>
         <CloseButton onClick={onClose}>X</CloseButton>
@@ -24,18 +26,18 @@ const ImagesZoom = ({ images, onClose }) => {
           >
             {images.map((v) => (
               <ImageWrapper key={v.src}>
-                <img src={`http://localhost:3065/${v.src}`} alt={v.src} />
+                <img src={`${backUrl}/${v.src}`} alt={v.src} />
               </ImageWrapper>
             ))}
           </Slick>
-     {/*     <Indicator>
+          {/*     <Indicator>
             <div>
               {currentSlide +1}
               {' '}
               /
               {images.length}
             </div>
-          </Indicator>*/}
+          </Indicator> */}
         </SlickWrapper>
       </div>
     </Overlay>
@@ -47,5 +49,3 @@ ImagesZoom.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 export default ImagesZoom;
-
-

@@ -3,7 +3,8 @@ import React, {
 } from 'react';
 import { Button, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_POST_REQUEST, addPost, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
+import { ADD_POST_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
+import { backUrl } from '../config/config';
 
 const PostForm = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const PostForm = () => {
   }, []);
 
   const onSubmit = useCallback(() => {
-    if(!text||!text.trim()){
+    if (!text || !text.trim()) {
       return alert('게시글을 작성하세요.');
     }
     const formData = new FormData();
@@ -76,14 +77,14 @@ const PostForm = () => {
         placeholder="어떤 신기한 일이 있었나요?"
       />
       <div>
-        <input type="file" name="image" multiple hidden ref={imageInput} onChange={onChangeImages}/>
+        <input type="file" name="image" multiple hidden ref={imageInput} onChange={onChangeImages} />
         <Button onClick={onClickImageUpload}>이미지 업로드</Button>
         <Button type="primary" style={style2} htmlType="submit" loading={addPostLoading}>짹짹</Button>
       </div>
       <div>
         {imagePaths.map((v, i) => (
           <div key={v} style={style3}>
-            <img src={`http://localhost:3065/${v}`} style={style4} alt={v}/>
+            <img src={`${backUrl}/${v}`} style={style4} alt={v} />
             <div>
               <Button onClick={onRemoveImage(i)}>제거</Button>
             </div>
