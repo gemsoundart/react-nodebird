@@ -1,1 +1,2 @@
-export const backUrl = 'http://15.236.206.58';
+export const backUrl = 'http://api.licecream.com';
+/*export const backUrl = 'http://localhost';*/
