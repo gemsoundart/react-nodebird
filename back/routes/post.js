@@ -2,6 +2,8 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
 
 const { Post, Comment, Image, User, Hashtag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
@@ -14,8 +16,20 @@ try {
   fs.mkdirSync('uploads');
 }
 
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: 'eu-west-3',
+})
 const upload = multer({
-  storage: multer.diskStorage({
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: 'licecream',
+    key(req, file, cb) {
+      cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`)
+    }
+  }),
+  /*storage: multer.diskStorage({
     destination(req, file, done) {
       done(null, 'uploads');
     },
@@ -24,7 +38,7 @@ const upload = multer({
       const basename = path.basename(file.originalname, ext);// 제로초
       done(null, basename + '_' + new Date().getTime() + ext); //제로초15342341.png
     },
-  }),
+  }),*/
   limits: { fileSize: 20 * 1024 * 1024 }, //20MB
 });
 
@@ -42,7 +56,7 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
       await post.addHashtags(result.map((v) => v[0]));
       console.log('result', result);
     }
-    ;
+
     if (req.body.image) {
       if (Array.isArray(req.body.image)) {// 이미지를 여러 개 올리면 image: [제로초.png, 부기초.png]
         const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image })));
@@ -81,7 +95,7 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
 //POST  /post/images
 router.post('/images', isLoggedIn, upload.array('image'), async (req, res, next) => {
   console.log(req.files);
-  res.json(req.files.map((v) => v.filename));
+  res.json(req.files.map((v) => v.location));
 });
 
 router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
@@ -142,28 +156,28 @@ router.post('/:postId/retweet', isLoggedIn, async (req, res, next) => {
       content: 'retweet'
     })
     const retweetWithPrevPost = await Post.findOne({
-      where: { id:retweet.id },
+      where: { id: retweet.id },
       include: [{
         model: Post,
         as: 'Retweet',
         include: [{
           model: User,
-          attributes: ['id','nickname'],
-        },{
+          attributes: ['id', 'nickname'],
+        }, {
           model: Image,
         }]
-      },{
+      }, {
         model: User,
-        attributes: ['id','nickname'],
-      },{
+        attributes: ['id', 'nickname'],
+      }, {
         model: Image,
-      },{
+      }, {
         model: Comment,
         include: [{
           model: User,
-          attributes: ['id','nickname'],
+          attributes: ['id', 'nickname'],
         }]
-      },{
+      }, {
         model: User,
         as: 'Likers',
         attributes: ['id'],
@@ -243,37 +257,37 @@ router.patch('/:postId', isLoggedIn, async (req, res, next) => {
 router.get('/:postId', async (req, res, next) => {
   try {
     const post = await Post.findOne({
-        where: { id: req.params.postId, },
-      });
-    if(!post){
+      where: { id: req.params.postId, },
+    });
+    if (!post) {
       res.status(404).send("존재하지 않는 게시글 입니다.");
     }
     const fullPost = await Post.findOne({
-      where: { id:post.id },
+      where: { id: post.id },
       include: [{
         model: Post,
         as: 'Retweet',
         include: [{
           model: User,
-          attributes: ['id','nickname'],
-        },{
+          attributes: ['id', 'nickname'],
+        }, {
           model: Image,
         }]
-      },{
+      }, {
         model: User,
-        attributes: ['id','nickname'],
-      },{
+        attributes: ['id', 'nickname'],
+      }, {
         model: Image,
-      },{
+      }, {
         model: Comment,
         include: [{
           model: User,
-          attributes: ['id','nickname'],
+          attributes: ['id', 'nickname'],
         }]
-      },{
+      }, {
         model: User,
         as: 'Likers',
-        attributes: ['id','nickname'],
+        attributes: ['id', 'nickname'],
       }]
     })
     res.status(200).json(fullPost);
