@@ -33,7 +33,7 @@ if(process.env.NODE_ENV === 'production'){
   app.use(morgan('dev'));
 }
 app.use(cors({
-  origin: ['http://localhost:3060', 'http://licecream.com'],
+  origin: ['http://localhost:3060', 'https://licecream.com'],
   credentials: true,
 }));
 app.use('/',express.static(path.join(__dirname,'uploads')));
@@ -45,7 +45,7 @@ app.use(session({
   secret:process.env.COOKIE_SECRET,
   cookie: {
     httpOnly: true,
-    secure: false,
+    secure: true,
     domain: process.env.NODE_ENV === 'production' && '.licecream.com',
   }
 }));
@@ -69,7 +69,7 @@ app.use('/user',userRouter);
 app.use('/posts',postsRouter);
 app.use('/hashtag',hashtagRouter);
 
-app.listen('80',()=>{
+app.listen('3065',()=>{
   console.log('Server under going');
 });
 
