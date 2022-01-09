@@ -26,9 +26,9 @@ const Post = () => {
         <link rel="icon" href="/favicon.ico" />
         <meta
           property="og:image"
-          content={singlePost.Images[0] ? singlePost.Images[0].src : 'https://nodebird.com/favicon.png'}
+          content={singlePost.Images[0] ? singlePost.Images[0].src : null}
         />
-        <meta property="og:url" content={`https://nodebird.com/post/${id}`}/>
+        <meta property="og:url" content={`https://licecream.com/post/${id}`}/>
       </Head>
       <PostCard post={singlePost}/>
     </AppLayer>
