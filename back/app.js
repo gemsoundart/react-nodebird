@@ -45,15 +45,12 @@ app.use(session({
   secret:process.env.COOKIE_SECRET,
   cookie: {
     httpOnly: true,
-    secure: false,
+    secure: true,
     domain: process.env.NODE_ENV === 'production' && '.licecream.com',
   }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cookieParser('nodebirdsecret'));
-
-
 
 
 
