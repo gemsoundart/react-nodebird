@@ -18,19 +18,17 @@ const Home = () => {
       alert(retweetError);
     }
   }, [retweetError]);
-  /*  useEffect(() => {
-      dispatch({
-        type: LOAD_MY_INFO_REQUEST,
-      });
-      dispatch({
-        type: LOAD_POSTS_REQUEST,
-      });
-    }, []);*/
+  useEffect(() => {
+    dispatch({
+      type: LOAD_POSTS_REQUEST,
+    });
+  }, []);
 
   return (
     <AppLayer>
-      {me && <PostForm />}
-      {mainPosts.map((post, index) => <PostCard key={post.id} post={post} index={index} postsRequest={LOAD_POSTS_REQUEST} />)}
+      {me && <PostForm/>}
+      {mainPosts.map((post, index) => <PostCard key={post.id} post={post} index={index}
+                                                postsRequest={LOAD_POSTS_REQUEST}/>)}
 
     </AppLayer>
   );
@@ -44,9 +42,6 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
   }
   store.dispatch({
     type: LOAD_MY_INFO_REQUEST,
-  });
-  store.dispatch({
-    type: LOAD_POSTS_REQUEST,
   });
   store.dispatch(END);
   await store.sagaTask.toPromise();
