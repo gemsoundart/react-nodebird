@@ -19,7 +19,6 @@ const LoginForm = () => {
   const style = useMemo(() => ({ marginTop: 10 }), []);
 
   const onSubmitForm = useCallback(() => {
-    console.log(email, password);
     dispatch(loginRequestAction({ email, password }));
   }, [email, password]);
 

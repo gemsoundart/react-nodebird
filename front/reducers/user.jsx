@@ -155,7 +155,6 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.loadFollowersDone = true;
       draft.me.Followers = action.data.followers;
       draft.loadFollowersLoading = false;
-      console.log(draft.me);
       break;
     case LOAD_FOLLOWERS_FAILURE:
       draft.loadFollowersLoading = false;

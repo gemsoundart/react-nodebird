@@ -151,7 +151,6 @@ const dummyComment = (content) => ({
 });
 
 const reducer = (state = initialState, action) => {
-  console.log(action);
   return produce(state, (draft) => {
     switch (action.type) {
 

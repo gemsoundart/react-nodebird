@@ -23,9 +23,6 @@ const FollowButton = ({ post }) => {
     }
   }, [isFollowing]);
 
-  useEffect(()=>{
-    console.log(unfollowLoading+"    "+followLoading);
-  },[unfollowLoading,followLoading]);
   if(post.User.id===me.id){
     return null;
   }

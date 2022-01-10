@@ -87,7 +87,6 @@ const PostCard = ({
   }, [id]);
 
   useEffect(() => {
-    console.log(postsRequest, idRequest);
     if (inView && hasMorePost && !loadPostsLoading) {
       const lastId = mainPosts[mainPosts.length - 1]?.id;
       dispatch({
