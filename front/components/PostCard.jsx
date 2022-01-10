@@ -134,7 +134,7 @@ const PostCard = ({
             <div style={{float:'right'}}>{moment(post.createdAt).startOf('day').fromNow()}</div>
             <Card.Meta
               avatar={
-                <Link href={`/user/${post.Retweet.User.id}`}>
+                <Link href={`/user/${post.Retweet.User.id}`} prefetch={false}>
                   <a><Avatar>{post.Retweet.User.nickname[0]}</Avatar></a>
                 </Link>
               }
@@ -146,7 +146,7 @@ const PostCard = ({
           <>
             <div style={{float:'right'}}>{moment(post.createdAt).startOf('hour').fromNow()}</div>
             <Card.Meta
-              avatar={<Link href={`/user/${post.User.id}`}><a><Avatar>{post.User.nickname[0]}</Avatar></a></Link>}
+              avatar={<Link href={`/user/${post.User.id}`} prefetch={false}><a><Avatar>{post.User.nickname[0]}</Avatar></a></Link>}
               title={post.User.nickname}
               description={<PostCardContent postData={`${post.content}`} />}
             />
@@ -165,7 +165,7 @@ const PostCard = ({
               <li>
                 <Comment
                   author={item.User.nickname}
-                  avatar={<Link href={`/user/${item.User.id}`}><a><Avatar>{item.User.nickname[0]}</Avatar></a></Link>}
+                  avatar={<Link href={`/user/${item.User.id}`} prefetch={false}><a><Avatar>{item.User.nickname[0]}</Avatar></a></Link>}
                   content={item.content}
                 />
               </li>
