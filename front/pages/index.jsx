@@ -18,11 +18,11 @@ const Home = () => {
       alert(retweetError);
     }
   }, [retweetError]);
-  /*useEffect(() => {
+  useEffect(() => {
     dispatch({
       type: LOAD_POSTS_REQUEST,
     });
-  }, []);*/
+  }, []);
 
   return (
     <AppLayer>
@@ -43,9 +43,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
   store.dispatch({
     type: LOAD_MY_INFO_REQUEST,
   });
-  store.dispatch({
+/*  store.dispatch({
     type: LOAD_POSTS_REQUEST,
-  });
+  });*/
   store.dispatch(END);
   await store.sagaTask.toPromise();
 });
