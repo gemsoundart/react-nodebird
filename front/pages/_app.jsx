@@ -10,7 +10,7 @@ const NodeBird = ({ Component }) => (
   <>
     <Head>
       <meta charSet="utf-8" />
-      <title>NodeBird</title>
+      <title>Paris Enfant</title>
     </Head>
     <Component />
   </>
